@@ -125,3 +125,24 @@ def clean_wilayah(kec_raw, desa_raw, lookups):
         desa=desa_final if desa_final else "#N/A",
         valid=valid,
     )
+
+
+
+def normalize_harga(harga, min_harga=1000, max_harga=1_000_000):
+    if not isinstance(harga, (int, float)) or harga <= 0:
+        return harga
+
+    normalized = harga
+
+    # kurang nol -> kalikan
+    while normalized < min_harga:
+        normalized *= 10
+
+    # kelebihan nol -> bagi, tapi jangan sampai di bawah min_harga
+    while normalized > max_harga and normalized % 10 == 0:
+        candidate = normalized / 10
+        if candidate < min_harga:
+            break
+        normalized = candidate
+
+    return normalized

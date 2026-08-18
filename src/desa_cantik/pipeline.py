@@ -23,6 +23,7 @@ from .excel_utils import (
     parse_date,
     shifted,
     week_of_month,
+    normalize_harga
 )
 
 
@@ -84,7 +85,9 @@ def build_dashboard_workbook(input_wb, min_harga=1000, progress_cb=None):
         for row_num in range(SRC_DATA_START_ROW, last_row + 1):
             wilayah = wilayah_cache[row_num]
 
-            harga = ws1.cell(row=row_num, column=harga_col).value
+            harga_mentah = ws1.cell(row=row_num, column=harga_col).value
+            harga = normalize_harga(harga_mentah, min_harga=min_harga)
+                            
             tanggal_raw = ws1.cell(row=row_num, column=tanggal_col).value
             asal = ws1.cell(row=row_num, column=asal_col).value
 
@@ -142,6 +145,9 @@ def build_dashboard_workbook(input_wb, min_harga=1000, progress_cb=None):
 
             ws_raw.append(row_out)
             n_raw += 1
+            
+            if harga != harga_mentah:
+                n_dropped_price += 1
 
             is_blank = id_kualitas is None and harga in (None, 0, "") and date_value is None
             if is_blank:
@@ -150,12 +156,12 @@ def build_dashboard_workbook(input_wb, min_harga=1000, progress_cb=None):
             if not wilayah["valid"]:
                 n_dropped_wilayah += 1
                 continue
-            if harga is None or (isinstance(harga, (int, float)) and harga < min_harga):
-                n_dropped_price += 1
-                continue
-
+          
+                
             ws_clean.append(row_out)
             n_clean += 1
+            
+            
 
     _format_date_columns(ws_raw, ws_clean)
 
