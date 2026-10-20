@@ -68,11 +68,12 @@ else:
                 st.metric(f"Baris {DASHBOARD_CLEANED_SHEET}", stats["n_clean"])
                 st.metric(
                     "Total dibuang",
-                    stats["n_blank"] + stats["n_dropped_wilayah"] + stats["n_dropped_price"],
+                    stats["n_raw"] - stats["n_clean"],
                 )
 
             with st.expander("Rincian baris yang dibuang"):
                 st.write(f"- Tanpa jawaban: **{stats['n_blank']}**")
+                st.write(f"- Tanggal Pendataan kosong: **{stats['n_dropped_date']}**")
                 st.write(f"- Wilayah gagal lookup (#N/A): **{stats['n_dropped_wilayah']}**")
                 st.write(f"- Harga di bawah {int(min_harga)}: **{stats['n_dropped_price']}**")
 

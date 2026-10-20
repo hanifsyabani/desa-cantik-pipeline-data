@@ -66,6 +66,7 @@ def build_dashboard_workbook(input_wb, min_harga=1000, progress_cb=None):
     n_raw = 0
     n_clean = 0
     n_blank = 0
+    n_dropped_date = 0
     n_dropped_wilayah = 0
     n_dropped_price = 0
 
@@ -153,6 +154,9 @@ def build_dashboard_workbook(input_wb, min_harga=1000, progress_cb=None):
             if is_blank:
                 n_blank += 1
                 continue
+            if date_value is None:
+                n_dropped_date += 1
+                continue
             if not wilayah["valid"]:
                 n_dropped_wilayah += 1
                 continue
@@ -170,6 +174,7 @@ def build_dashboard_workbook(input_wb, min_harga=1000, progress_cb=None):
         n_raw=n_raw,
         n_clean=n_clean,
         n_blank=n_blank,
+        n_dropped_date=n_dropped_date,
         n_dropped_wilayah=n_dropped_wilayah,
         n_dropped_price=n_dropped_price,
         src_data_start_row=SRC_DATA_START_ROW,

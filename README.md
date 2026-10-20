@@ -8,6 +8,7 @@ lalu membuat dua output:
 - `Dashboard (Raw)`: semua hasil transformasi.
 - `Dashboard (Cleaned)`: hasil yang sudah difilter dari data kosong, wilayah
   gagal lookup, dan harga terlalu rendah.
+  Baris dengan `Tanggal Pendataan` kosong juga dihapus seluruhnya.
 
 ## Struktur Folder
 

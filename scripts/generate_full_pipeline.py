@@ -33,6 +33,7 @@ def main():
     print(f"'Dashboard (Raw)': {stats['n_raw']} baris")
     print(f"'Dashboard (Cleaned)': {stats['n_clean']} baris")
     print(f"  - dibuang (tanpa jawaban): {stats['n_blank']}")
+    print(f"  - dibuang (Tanggal Pendataan kosong): {stats['n_dropped_date']}")
     print(f"  - dibuang (wilayah gagal lookup / #N/A): {stats['n_dropped_wilayah']}")
     print(
         "  - dibuang "
